@@ -74,7 +74,7 @@ public class TFLAPICommunicator {
      * Response handler code taken from previous project. Maps HTTPReponse
      * to Json object.
      */
-    final static ResponseHandler<Json> asJsonHandler = response -> {
+    private final static ResponseHandler<Json> asJsonHandler = response -> {
         try(BufferedReader reader = new BufferedReader(
                 new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8))){
             return Json.read(reader.lines().collect(Collectors.joining("\n")));

@@ -27,7 +27,7 @@ public class TFLAPICommunicatorTest {
     public void whenGettingArrivalsWithInvalidLineId_InvalidURIExceptionThrown(){
         exception.expect(RuntimeException.class);
         exception.expectMessage(containsString("Invalid URI"));
-        
+
         TFLAPICommunicator.getArrivals(stopPoint, "^#&*^!%#");
     }
 

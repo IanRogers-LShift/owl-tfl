@@ -1,7 +1,9 @@
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 public class Arrival {
+
+    private static final String PRINT_FORMAT = "%s  --  %s  --  %s";
 
     private final String lineId;
     private final LocalDateTime arrivalTime;
@@ -16,16 +18,12 @@ public class Arrival {
     /**
      * Return the number of minutes until the train arrives
      */
-    public Duration timeUntilArrival(){
-        return null;
+    public long minutesUntilArrival(){
+        return ChronoUnit.MINUTES.between(LocalDateTime.now(), arrivalTime);
     }
 
     @Override
     public String toString() {
-        return "Arrival{" +
-                "lineId='" + lineId + '\'' +
-                ", arrivalTime=" + arrivalTime +
-                ", towardsDestination='" + towardsDestination + '\'' +
-                '}';
+        return String.format(PRINT_FORMAT, lineId, towardsDestination, minutesUntilArrival());
     }
 }
