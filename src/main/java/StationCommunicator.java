@@ -11,7 +11,7 @@ public class StationCommunicator {
      * about the given arrival to a text file
      */
     public static void sendArrival(Arrival arrival){
-        print("", arrival);
+        print("", "Spoken announcement", arrival);
     }
 
     /**
@@ -20,12 +20,14 @@ public class StationCommunicator {
      */
     public static void sendFollowingArrivals(List<Arrival> arrivals){
         for(Arrival arrival:arrivals){
-            print("", arrival);
+            print("", "Board announcement", arrival);
         }
     }
 
-    private static void print(String file, Arrival arrival){
+    private static void print(String file, String preface, Arrival arrival){
+        System.out.println(preface);
         System.out.println(arrival);
+        System.out.println();
     }
 
 }

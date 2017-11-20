@@ -2,7 +2,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
-public class Arrival {
+public class Arrival implements Comparable {
 
     private static final String PRINT_FORMAT = "%s  --  %s  --  %s";
 
@@ -36,5 +36,25 @@ public class Arrival {
     @Override
     public String toString() {
         return String.format(PRINT_FORMAT, lineId, towardsDestination, minutesUntilArrival());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Arrival arrival = (Arrival) o;
+
+        return arrivalId != null ? arrivalId.equals(arrival.arrivalId) : arrival.arrivalId == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return arrivalId != null ? arrivalId.hashCode() : 0;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return this.arrivalTime.compareTo(((Arrival) o).arrivalTime);
     }
 }

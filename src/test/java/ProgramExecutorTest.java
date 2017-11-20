@@ -8,8 +8,6 @@ public class ProgramExecutorTest {
     @Test
     public void run(){
         ProgramExecutor programExecutor = new ProgramExecutor(stopPoint, lineId);
-
-        programExecutor.run();
     }
 
 
