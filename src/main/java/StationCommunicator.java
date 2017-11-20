@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ public class StationCommunicator {
     }
 
     private static void print(String file, String preface, Arrival arrival){
-        System.out.println(preface);
+        System.out.println(preface + " at " + LocalDateTime.now());
         System.out.println(arrival);
         System.out.println();
     }

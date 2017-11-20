@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Arrival implements Comparable {
 
-    private static final String PRINT_FORMAT = "%s  --  %s  --  %s";
+    private static final String PRINT_FORMAT = "%s  --  %s  --  %s  --  %s";
 
     private final String lineId;
     private final LocalDateTime arrivalTime;
@@ -36,7 +36,7 @@ public class Arrival implements Comparable {
 
     @Override
     public String toString() {
-        return String.format(PRINT_FORMAT, lineId, towardsDestination, minutesUntilArrival());
+        return String.format(PRINT_FORMAT, lineId, towardsDestination, minutesUntilArrival(), arrivalId);
     }
 
     @Override
