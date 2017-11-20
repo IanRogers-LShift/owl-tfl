@@ -1,6 +1,7 @@
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 public class Arrival implements Comparable {
 
@@ -55,6 +56,10 @@ public class Arrival implements Comparable {
 
     @Override
     public int compareTo(Object o) {
+        if(Objects.equals(arrivalId, ((Arrival) o).arrivalId)){
+            return 0;
+        }
+
         return this.arrivalTime.compareTo(((Arrival) o).arrivalTime);
     }
 }

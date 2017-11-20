@@ -2,7 +2,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -25,26 +24,37 @@ public class ProgramExecutor {
     private final String lineId;
     private TreeSet<Arrival> arrivals;
 
-    private ScheduledExecutorService announcements;
-    private ScheduledExecutorService boardUpdates;
+    private ScheduledExecutorService threadpool;
+    private ScheduledFuture boardFuture;
+    private ScheduledFuture announcementFuture;
 
-    public ProgramExecutor(String stopPoint, String lineId){
+    public ProgramExecutor(String stopPoint, String lineId, ScheduledExecutorService threadpool){
         this.stopPoint = stopPoint;
         this.lineId = lineId;
 
         // Only have one announcement at once
-        this.announcements = Executors.newScheduledThreadPool(1);
-        this.boardUpdates = Executors.newScheduledThreadPool(2);
+        this.threadpool = threadpool;
         this.arrivals = new TreeSet<>();
+    }
 
-        boardUpdates.scheduleAtFixedRate(updateBoard(), 1,1, TimeUnit.MINUTES);
-        boardUpdates.scheduleAtFixedRate(getAnnouncements(), 0, 1, TimeUnit.MINUTES);
+    public void startBoardUpdates(){
+        boardFuture = threadpool.scheduleAtFixedRate(updateBoard(), 1,1, TimeUnit.MINUTES);
+    }
 
-        try {
-            boardUpdates.awaitTermination(10, TimeUnit.MINUTES);
-        } catch (InterruptedException e){
-            throw new RuntimeException(e);
-        }
+    public void startGettingAnnouncements(){
+        announcementFuture = threadpool.scheduleAtFixedRate(getAnnouncements(), 0, 1, TimeUnit.MINUTES);
+    }
+
+    public void stopBoardUpdates(){
+        boardFuture.cancel(true);
+    }
+
+    public void stopGettingAnnouncements(){
+        announcementFuture.cancel(true);
+    }
+
+    public int numberArrivals(){
+        return arrivals.size();
     }
 
     private Runnable getAnnouncements() {
@@ -57,10 +67,10 @@ public class ProgramExecutor {
         };
     }
 
-    private void schedule(Arrival arrival){
+    public void schedule(Arrival arrival){
 
         if(!arrivals.contains(arrival)) {
-            announcements.schedule(
+            threadpool.schedule(
                     makeAnnouncement(arrival), arrival.secondsUntilArrival(), TimeUnit.SECONDS);
 
             System.out.println("Arrival in " + arrival.minutesUntilArrival());
