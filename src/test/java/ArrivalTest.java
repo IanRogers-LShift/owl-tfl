@@ -12,7 +12,7 @@ public class ArrivalTest {
     @Test
     public void whenArrival10MinutesInFuture_MinutesUntilArrivalIs10(){
         LocalDateTime tenMinInFuture = now().plus(10, ChronoUnit.MINUTES);
-        Arrival arrival = new Arrival("whale", tenMinInFuture, "starfish");
+        Arrival arrival = new Arrival("whale", tenMinInFuture, "starfish", "manatee");
 
         assertThat(arrival.minutesUntilArrival(), greaterThanOrEqualTo(9L));
     }

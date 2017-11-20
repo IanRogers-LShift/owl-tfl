@@ -55,8 +55,8 @@ public class TFLAPICommunicator {
                 String destination = arrivalJson.at(TOWARDS).asString();
                 String arrivalTime = arrivalJson.at(EXPECTED_ARRIVAL).asString();
 
-                Arrival arrival = new Arrival(id,
-                        LocalDateTime.parse(arrivalTime, formatter), destination
+                Arrival arrival = new Arrival(lineID,
+                        LocalDateTime.parse(arrivalTime, formatter), destination, id
                 );
 
                 arrivals.add(arrival);
